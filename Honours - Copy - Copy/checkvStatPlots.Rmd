@@ -1,0 +1,35 @@
+---
+title: "checkvStatPlots"
+output: html_document
+---
+
+```{r}
+#Reading in duplicate data that was manually edited
+viral_checkv_stats <- viral_duplicate_manual
+
+#Changing blank values in "reason" to "contambetter"
+viral_checkv_stats$reason <- as.character(viral_checkv_stats$reason)
+viral_checkv_stats$reason[viral_checkv_stats$reason==""] <- "contambetter"
+
+#Plot with whether or not they were kept by software
+ggplot(viral_checkv_stats,
+       aes(x=software,
+           fill=keep_it))+
+  geom_bar()+
+  scale_fill_manual(values =c("brown", "chartreuse3"))
+
+
+#Plot with reason they were kept by software
+reason_colors <- c("chartreuse3", "brown2", "chartreuse4", "brown","cornflowerblue")
+
+ggplot(viral_checkv_stats,
+       aes(x=software,
+           fill=reason))+
+  geom_bar()+
+  scale_fill_manual(values = reason_colors)
+
+
+
+viral_checkv_stats
+  
+```

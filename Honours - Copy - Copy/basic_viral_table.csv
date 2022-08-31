@@ -1,0 +1,60 @@
+"","isolateID","bio_name","bp_length","checkv_completeness"
+"1","2",NA,35176,100
+"2","2",NA,56566,85.45
+"3","4",NA,12555,81.95
+"4","4",NA,35173,100
+"5","7","Vibrio parahaemolyticus",39083,57.33
+"6","11","Vibrio tubiashii",41297,74.82
+"7","15","Vibrio mediterranei",40636,73.35
+"8","35",NA,30506,69.7
+"9","46",NA,73003,100
+"10","47","Raoultella terrigena",31912,99.81
+"11","71","Acinetobacter calcoaceticus",44080,100
+"12","104","Stenotrophomonas maltophilia_AM",55770,65.76
+"13","104","Stenotrophomonas maltophilia_AM",40800,85.54
+"14","104","Stenotrophomonas maltophilia_AM",33636,100
+"15","104","Stenotrophomonas maltophilia_AM",46211,100
+"16","104","Stenotrophomonas maltophilia_AM",47908,52.66
+"17","104","Stenotrophomonas maltophilia_AM",55646,96.5
+"18","110",NA,84137,70.5
+"19","110",NA,38621,100
+"20","111",NA,74455,93.49
+"21","111",NA,43109,92.15
+"22","127","Stenotrophomonas maltophilia_AM",55645,96.49
+"23","127","Stenotrophomonas maltophilia_AM",41041,86.7
+"24","127","Stenotrophomonas maltophilia_AM",41797,100
+"25","127","Stenotrophomonas maltophilia_AM",52899,62.67
+"26","127","Stenotrophomonas maltophilia_AM",33655,100
+"27","129","Stenotrophomonas maltophilia_AM",55764,65.75
+"28","129","Stenotrophomonas maltophilia_AM",55646,96.49
+"29","129","Stenotrophomonas maltophilia_AM",40802,85.87
+"30","129","Stenotrophomonas maltophilia_AM",41796,100
+"31","129","Stenotrophomonas maltophilia_AM",33672,100
+"32","138","Stenotrophomonas maltophilia_AM",35645,73.01
+"33","138","Stenotrophomonas maltophilia_AM",55422,96.5
+"34","138","Stenotrophomonas maltophilia_AM",55766,65.75
+"35","138","Stenotrophomonas maltophilia_AM",40799,83.8
+"36","141","Stenotrophomonas rhizophila",43588,54.6
+"37","142","Stenotrophomonas maltophilia_AM",55767,65.76
+"38","142","Stenotrophomonas maltophilia_AM",55644,96.49
+"39","142","Stenotrophomonas maltophilia_AM",41121,86.2
+"40","142","Stenotrophomonas maltophilia_AM",41794,100
+"41","142","Stenotrophomonas maltophilia_AM",33634,100
+"42","150","Stenotrophomonas rhizophila_A",46200,88.09
+"43","155","Staphylococcus saprophyticus",43051,100
+"44","161","Enterobacter mori",40565,95.37
+"45","161","Enterobacter mori",46074,100
+"46","161","Enterobacter mori",38052,95.9
+"47","161","Enterobacter mori",48425,100
+"48","161","Enterobacter mori",31787,56.37
+"49","166","Enterobacter mori",31787,57.19
+"50","166","Enterobacter mori",49311,100
+"51","166","Enterobacter mori",39700,100
+"52","166","Enterobacter mori",44559,98.52
+"53","166","Enterobacter mori",40566,95.88
+"54","168","Stenotrophomonas maltophilia_AM",33635,100
+"55","168","Stenotrophomonas maltophilia_AM",46212,100
+"56","168","Stenotrophomonas maltophilia_AM",47905,52.66
+"57","168","Stenotrophomonas maltophilia_AM",55647,96.5
+"58","168","Stenotrophomonas maltophilia_AM",55766,65.75
+"59","168","Stenotrophomonas maltophilia_AM",41041,86.7

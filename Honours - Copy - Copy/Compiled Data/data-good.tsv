@@ -1,0 +1,56 @@
+sampleID	contig_count	contig_length_max	contig_length_total	contig_NL50	Completeness	Contamination	Strain heterogeneity	taxonomy_gtdb
+Sample_1	5.0	1.392 MB	4.686 MB	2/1.365 MB	99.66	1.22	16.67	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacterales;f__Alteromonadaceae;g__Pseudoalteromonas;s__
+Sample_2	8.0	3.883 MB	6.567 MB	1/3.883 MB	99.75	3.16	7.32	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacterales;f__Vibrionaceae;g__Vibrio;s__Vibrio mediterranei
+Sample_3	1.0	2.395 KB	0.002 MB	1/2.395 KB	0.0	0.0	0.0	
+Sample_4	1.0	5.655 MB	5.655 MB	1/5.655 MB	99.57	1.05	14.29	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Pseudomonadales;f__Pseudomonadaceae;g__Pseudomonas_E;s__
+Sample_5	1.0	5.736 MB	5.736 MB	1/5.736 MB	99.65	1.32	5.88	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacterales;f__Enterobacteriaceae;g__Raoultella;s__Raoultella terrigena
+Sample_6	96.0	16.794 KB	0.450 MB	25/5.55 KB	2.63	0.0	0.0	
+Sample_7	1.0	3.567 MB	3.567 MB	1/3.567 MB	99.49	0.42	0.0	d__Bacteria;p__Actinobacteriota;c__Actinomycetia;o__Actinomycetales;f__Microbacteriaceae;g__Microbacterium;s__Microbacterium barkeri
+Sample_8								
+Sample_9	1.0	4.452 MB	4.452 MB	1/4.452 MB	99.01	0.04	0.0	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Xanthomonadales;f__Xanthomonadaceae;g__Stenotrophomonas;s__Stenotrophomonas rhizophila_A
+Sample_10	101.0	418.753 KB	4.545 MB	13/96.481 KB	99.44	3.66	0.0	d__Bacteria;p__Firmicutes;c__Bacilli;o__Staphylococcales;f__Staphylococcaceae;g__Staphylococcus;s__Staphylococcus saprophyticus
+Sample_11	14.0	4.935 MB	5.347 MB	1/4.935 MB	99.69	4.58	0.0	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacterales;f__Enterobacteriaceae;g__Enterobacter;s__Enterobacter mori
+Sample_12	100.0	78.726 KB	2.664 MB	29/32.405 KB	33.46	5.51	58.0	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacterales;f__Vibrionaceae;g__Vibrio;s__
+Sample_13	10.0	37.469 KB	0.220 MB	4/24.729 KB	0.0	0.0	0.0	
+Sample_14	20.0	410.249 KB	3.330 MB	5/254.148 KB	65.29	0.34	0.0	d__Bacteria;p__Actinobacteriota;c__Actinomycetia;o__Actinomycetales;f__Microbacteriaceae;g__Microbacterium;s__Microbacterium foliorum
+Sample_15								
+Sample_16	1.0	4.935 MB	4.935 MB	1/4.935 MB	99.52	0.38	0.0	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacterales;f__Enterobacteriaceae;g__Enterobacter;s__Enterobacter mori
+Sample_17	1.0	4.884 MB	4.884 MB	1/4.884 MB	99.89	0.11	0.0	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Xanthomonadales;f__Xanthomonadaceae;g__Stenotrophomonas;s__Stenotrophomonas maltophilia_AM
+Sample_18	16.0	7.714 KB	0.048 MB	7/2.698 KB	0.0	0.0	0.0	
+Sample_19	40.0	650.605 KB	4.827 MB	7/227.821 KB	96.96	0.53	20.0	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacterales;f__Alteromonadaceae;g__Pseudoalteromonas;s__
+Sample_20	4.0	3.794 MB	4.865 MB	1/3.794 MB	99.25	0.25	0.0	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacterales;f__Alteromonadaceae;g__Pseudoalteromonas;s__
+Sample_21	3.0	3.353 MB	5.475 MB	1/3.353 MB	99.1	0.07	0.0	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacterales;f__Vibrionaceae;g__Vibrio;s__Vibrio parahaemolyticus
+Sample_22	74.0	30.832 KB	0.754 MB	20/12.877 KB	20.4	0.0	0.0	
+Sample_23	114.0	160.482 KB	4.241 MB	28/50.617 KB	58.79	0.57	0.0	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacterales;f__Vibrionaceae;g__Vibrio;s__Vibrio tubiashii
+Sample_24	103.0	92.369 KB	2.016 MB	24/26.024 KB	30.31	0.29	0.0	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacterales;f__Vibrionaceae;g__Vibrio;s__Vibrio parahaemolyticus
+Sample_25	29.0	33.605 KB	0.406 MB	8/17.9 KB	8.3	0.07	0.0	
+Sample_26	155.0	168.398 KB	5.082 MB	33/49.961 KB	60.82	3.04	18.92	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacterales;f__Vibrionaceae;g__Vibrio;s__Vibrio mediterranei
+Sample_27	54.0	5.998 KB	0.167 MB	22/2.871 KB	10.71	0.0	0.0	
+Sample_28								
+Sample_29	5.0	11.957 KB	0.030 MB	2/7.338 KB	0.0	0.0	0.0	
+Sample_30	24.0	1.074 MB	3.594 MB	3/321.453 KB	86.75	0.59	0.0	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Pseudomonadales;f__Marinomonadaceae;g__Marinomonas;s__
+Sample_31	10.0	15.707 KB	0.085 MB	3/12.461 KB	0.0	0.0	0.0	
+Sample_32								
+Sample_33	122.0	172.959 KB	3.839 MB	25/44.626 KB	30.37	0.07	0.0	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Pseudomonadales;f__Pseudomonadaceae;g__Pseudomonas_E;s__
+Sample_34								
+Sample_35	14.0	4.045 KB	0.038 MB	6/2.557 KB	1.53	0.0	0.0	
+Sample_36	92.0	66.211 KB	1.543 MB	22/22.872 KB	33.1	0.0	0.0	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacterales;f__Vibrionaceae;g__Vibrio;s__Vibrio parahaemolyticus
+Sample_37								
+Sample_38	173.0	7.969 KB	0.558 MB	64/3.152 KB	16.46	0.0	0.0	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacterales;f__Enterobacteriaceae;g__Proteus;s__Proteus mirabilis_B
+Sample_39	8.0	1.137 MB	4.077 MB	3/877.183 KB	99.35	0.41	0.0	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Pseudomonadales;f__Moraxellaceae;g__Acinetobacter;s__Acinetobacter calcoaceticus
+Sample_40	85.0	17.936 KB	0.386 MB	24/5.364 KB	11.21	0.0	0.0	
+Sample_41	19.0	14.723 KB	0.078 MB	5/4.339 KB	0.86	0.0	0.0	
+Sample_42	1.0	12.68 KB	0.013 MB	1/12.68 KB	0.0	0.0	0.0	
+Sample_43	1.0	4.884 MB	4.884 MB	1/4.884 MB	99.89	0.11	0.0	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Xanthomonadales;f__Xanthomonadaceae;g__Stenotrophomonas;s__Stenotrophomonas maltophilia_AM
+Sample_44	38.0	68.413 KB	1.069 MB	10/45.848 KB	4.17	0.0	0.0	
+Sample_45	5.0	3.799 MB	4.421 MB	1/3.799 MB	96.98	0.22	0.0	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacterales;f__Enterobacteriaceae;g__Providencia;s__
+Sample_46	6.0	2.15 MB	4.582 MB	2/1.591 MB	99.97	0.54	0.0	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacterales;f__Enterobacteriaceae;g__Providencia;s__
+Sample_47	1.0	3.235 MB	3.235 MB	1/3.235 MB	99.03	1.07	0.0	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Pseudomonadales;f__Marinomonadaceae;g__Marinomonas;s__
+Sample_48	22.0	93.98 KB	0.944 MB	7/63.787 KB	17.48	0.21	0.0	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Pseudomonadales;f__Marinomonadaceae;g__Marinomonas;s__
+Sample_49	1.0	3.567 MB	3.567 MB	1/3.567 MB	98.65	0.42	0.0	d__Bacteria;p__Actinobacteriota;c__Actinomycetia;o__Actinomycetales;f__Microbacteriaceae;g__Microbacterium;s__Microbacterium barkeri
+Sample_50	5.0	2.449 MB	4.945 MB	2/2.002 MB	99.83	0.11	0.0	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Xanthomonadales;f__Xanthomonadaceae;g__Stenotrophomonas;s__Stenotrophomonas maltophilia_AM
+Sample_51	3.0	2.66 MB	4.923 MB	1/2.66 MB	99.26	0.11	0.0	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Xanthomonadales;f__Xanthomonadaceae;g__Stenotrophomonas;s__Stenotrophomonas maltophilia_AM
+Sample_52	46.0	61.748 KB	0.967 MB	14/24.918 KB	20.69	0.0	0.0	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Burkholderiales;f__Burkholderiaceae;g__Alcaligenes;s__
+Sample_53	14.0	1.896 MB	4.890 MB	2/1.189 MB	99.47	0.11	0.0	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Xanthomonadales;f__Xanthomonadaceae;g__Stenotrophomonas;s__Stenotrophomonas maltophilia_AM
+Sample_54	4.0	2.772 MB	4.777 MB	1/2.772 MB	98.85	0.13	0.0	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Xanthomonadales;f__Xanthomonadaceae;g__Stenotrophomonas;s__Stenotrophomonas rhizophila
+Sample_55	8.0	2.428 MB	4.892 MB	2/1.828 MB	98.72	0.11	0.0	d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Xanthomonadales;f__Xanthomonadaceae;g__Stenotrophomonas;s__Stenotrophomonas maltophilia_AM

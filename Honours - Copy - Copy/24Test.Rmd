@@ -1,0 +1,55 @@
+---
+title: "24 Test July"
+output: html_document
+---
+
+Packages:
+```{r}
+library(dplyr)
+library(tidyr)
+```
+
+
+
+Adding isolate IDs and moving to beginning:
+```{r}
+datajuly <- read.csv("data-july.tsv", sep = "\t")
+
+datajuly$isolateID <- c(145, 146, 147, 150, 155, 161, 162, 163, 164, 165, 166, 168,
+                        145, 147, 146, 150, 155, 161, 162, 163, 164, 165, 166, 168,
+                        145, 147, 146, 150, 155, 161, 162, 163, 164, 165, 166, 168,
+                        145, 146, 147, 150, 155, 161, 162, 163, 164, 165, 166, 168)
+
+
+datajuly <- datajuly%>%
+  relocate(isolateID)%>%
+  head()
+
+datajuly$taxonomy_gtdb
+
+datajuly
+```
+
+Just isolate IDs and names:
+```{r}
+dataids <- datajuly%>%
+    select(isolateID, taxonomy_gtdb)
+
+dataids$taxonomy_gtdb <- as.factor(dataids$taxonomy_gtdb)
+
+dataids
+
+data_tax <- extract(data = dataids,    # Apply extract function
+                             col = taxonomy_gtdb,
+                             into = c("domain",                                    "phlyum",
+                                      "class",
+                                      "order",
+                                      "family",
+                                      "genus",
+                                      "bio_name"),
+                             regex = ".*d__([[:alnum:]]+).*p__([[:alnum:]]+).*c__([[:alnum:]]+).*o__([[:alnum:]]+).*f__([[:alnum:]]+).*g__([[:alnum:]]+).*s__([[:print:]]+)")%>%
+  relocate(bio_name, .after=isolateID)
+  
+data_tax
+
+```

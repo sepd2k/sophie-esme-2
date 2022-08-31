@@ -1,0 +1,69 @@
+SampleID	 Isolate	Barcode_replicate_1 	Barcode_replicate2	Data_pool	Notes
+Sample_1	?	1	6	pool_test1	
+Sample_2	?	2	7	pool_test1	
+Sample_3	?	3	8	pool_test1	
+Sample_4	?	4	17	pool_test1	
+Sample_5	?	5	18	pool_test1	
+Sample_6	145	1	25	pool_test2	
+Sample_7	147	2	26	pool_test2	
+Sample_8	146	3	27	pool_test2	
+Sample_9	150	4	28	pool_test2	
+Sample_10	155	5	29	pool_test2	
+Sample_11	161	6	30	pool_test2	
+Sample_12	162	7	31	pool_test2	
+Sample_13	163	8	32	pool_test2	
+Sample_14	164	9	33	pool_test2	
+Sample_15	165	10	34	pool_test2	
+Sample_16	166	11	35	pool_test2	
+Sample_17	168	12	36	pool_test2	
+Sample_18	1	48	49	pool_1	
+Sample_19	2	2	50	pool_1	
+Sample_20	4	3	51	pool_1	
+Sample_21	7	4	52	pool_1	
+Sample_22	8	5	53	pool_1	
+Sample_23	11	6	54	pool_1	
+Sample_24	12	7	55	pool_1	
+Sample_25	13	8	56	pool_1	
+Sample_26	15	9	57	pool_1	
+Sample_27	20	10	58	pool_1	
+Sample_28	26	11	59	pool_1	
+Sample_29	27	12	60	pool_1	
+Sample_30	30	13	61	pool_1	
+Sample_31	31	14	62	pool_1	
+Sample_32	32	15	63	pool_1	
+Sample_33	35	16	64	pool_1	
+Sample_34	37	17	65	pool_1	
+Sample_35	53	18	66	pool_1	
+Sample_36	54	19	67	pool_1	
+Sample_37	57	20	68	pool_1	
+Sample_38	58	21	69	pool_2	
+Sample_39	71	22	70	pool_2	
+Sample_40	72	23	71	pool_2	
+Sample_41	73	24	72	pool_2	
+Sample_42	77	25	73	pool_2	
+Sample_43	104	26	74	pool_2	
+Sample_44	108	27	75	pool_2	
+Sample_45	110	28	76	pool_2	
+Sample_46	111	29	77	pool_2	
+Sample_47	120	30	78	pool_2	
+Sample_48	121	31	79	pool_2	
+Sample_49	122	32	80	pool_2	
+Sample_50	127	33	81	pool_2	
+Sample_51	129	34	82	pool_2	
+Sample_52	130	35	83	pool_2	
+Sample_53	138	36	84	pool_2	
+Sample_54	141	37	85	pool_2	
+Sample_55	142	38	86	pool_2	
+Sample_7B	147	39	87	pool_2	"Isolate 146 intended to be re-run. (Due to mix up/swapping of 146 and 147 during earlier run, 147 was re-run instead)"
+Sample_14B	164	40	88	pool_2	Isolate was re-run to add to pool_0 data (samples 1-12)
+Sample_15B	165	41	89	pool_2	Isolate was re-run to add to pool_0 data (samples 1-12)
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					

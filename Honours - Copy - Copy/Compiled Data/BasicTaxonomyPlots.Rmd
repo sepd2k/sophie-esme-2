@@ -1,0 +1,119 @@
+---
+title: "Basic Taxonomy Plots"
+output: html_document
+---
+
+#NOTE: Run DataWrangling before this
+
+Phyla barplot:
+```{r}
+ggplot(datagood_tax_nafree, aes(phylum, fill=phylum)) +
+  geom_bar()
+```
+
+Class barplot:
+```{r}
+ggplot(datagood_tax_nafree, aes(class, fill=class)) +
+  geom_bar()
+```
+
+Order barplot:
+```{r}
+ggplot(datagood_tax_nafree, aes(order, fill=order)) +
+  geom_bar()
+```
+
+Family barplot:
+```{r}
+ggplot(datagood_tax_nafree, aes(family, fill=family)) +
+  geom_bar()
+```
+
+
+Genus barplot:
+```{r}
+ggplot(datagood_tax_nafree, aes(genus, fill=genus)) +
+  geom_bar()
+```
+
+
+
+```{r}
+#Stenotrophomonas isolates
+datagood_tax_nafree[datagood_tax_nafree$genus == 'Stenotrophomonas', ]
+
+#Vibrio isolates
+datagood_tax_nafree[datagood_tax_nafree$genus == 'Vibrio', ]
+
+#Microbacterium isolates
+datagood_tax_nafree[datagood_tax_nafree$genus == 'Microbacterium', ]
+
+
+
+
+```
+
+
+
+```{r}
+data_bacterial_meta%>%
+  relocate(bio_name, .after=genus)
+
+salinity_plot <- data_bacterial_meta%>%
+  filter(!is.na(family))%>%
+  relocate(sampleID, .before=isolateID)%>%
+  relocate(bio_name, .after=sampleID)
+
+salinity_plot
+
+
+
+
+cbPalette <- c("#88CCEE", "#CC6677", "#DDCC77", "#117733", "#332288", "#AA4499", 
+                             "#44AA99", "#999933", "#882255", "#661100", "#6699CC", "#888888", "#D55E00")
+
+border_colors <- c("cyan3", "blue")
+
+ggplot(salinity_plot, aes(x = media,
+                          y=salinity,
+                          size=filter_size,
+                          fill=genus,
+                          color=water_origin))+
+ geom_point(position = position_jitterdodge(dodge.width = 0.5,
+                                            jitter.height = 0.2,
+                                            jitter.width = 0.2,
+                                            seed = 2),
+            stroke = 1,
+            pch = 21)+
+theme_bw()+
+  scale_fill_manual(values = cbPalette)+
+  scale_color_manual(values= border_colors,
+                     guide="none")+
+  scale_size_manual(values= c(2,4,6))+
+  xlab("Media Type")+
+  ylab("Media Salinity (g/L)")
+
+
+ggplot(salinity_plot, aes(x = media,
+                          y=salinity,
+                          size=filter_size,
+                          fill=genus,
+                          color=water_origin))+
+ geom_point(position = position_jitterdodge(dodge.width = 0.5,
+                                            jitter.height = 0.2,
+                                            jitter.width = 0.2,
+                                            seed = 1),
+            stroke = 1,
+            pch = 21)+
+theme_bw()+
+  scale_color_manual(values= border_colors,
+                     guide="none")+
+  scale_size_manual(values= c(2,4,6))+
+  xlab("Media Type")+
+  ylab("Media Salinity (g/L)")
+
+
+
+```
+
+

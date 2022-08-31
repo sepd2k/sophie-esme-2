@@ -1,0 +1,260 @@
+---
+title: "GoodRun"
+output: pdf_document
+---
+
+```{r}
+library(janitor)
+library(tidyverse)
+library(fuzzyjoin)
+library(BiocManager)
+library(IRanges)
+library(dplyr)
+library(stringi)
+
+```
+
+Reading in data:
+```{r}
+#Reading in bacterial sequence data:
+datagood <- read.csv("data-good.tsv", sep = "\t")
+
+#Reading in Waiwera metadata (including isolate ID)
+waiwera_text <- read.delim("Waiwera270722_data_pools.txt")
+
+#Reading in viral data
+viral_text <- read.delim("viral_contigs_summary_table_VIRUSES_checkv.txt")
+viral_text
+
+#Reading in viral annotations:
+viral_anno <- read.csv("viral_contigs_compiled_annotations.tsv", sep = "\t")
+viral_anno
+
+#Reading in isolate history spreadsheet:
+iso_history <- read.csv("Isolate history spreadsheet.tsv", sep = "\t")
+
+#Reading in VIBRANT co-ordinates:
+vibrant_info <- read.csv("VIBRANT_integrated_prophage_coordinates_contigs.tsv", sep = "\t")
+
+#Reading in VirSorter annotations:
+virsorter_info <- read.csv("VirSorter2_contigs-final-viral-boundary.tsv", sep = "\t")
+
+#Fixing column heads and separating culture name into bacteria's water origin and filter size 
+iso_history <- tail(iso_history, -2)%>%
+  row_to_names(row_number = 1)%>%
+  separate("Culture name", c("Water_origin", "Filter_size"), extra="merge")%>%
+  mutate(Filter_size = str_remove_all(Filter_size, "water | filter"))%>%
+  clean_names()%>%
+  mutate(salinity = id)%>%
+  mutate(salinity = str_extract(salinity, "[^g]+"))%>%
+  mutate(salinity = str_remove_all(salinity, "[:alpha:]"))%>%
+  mutate(salinity = str_remove_all(salinity, "2"))
+
+iso_history
+
+
+ 
+
+```
+
+Compiling bacterial data into one dataframe:
+```{r}
+#Adding isolate numbers from Waiwera metadata
+data_bacterial <- datagood
+data_bacterial$isolateID <- waiwera_text$Isolate[1:55]
+
+#Moving isolate number to front
+data_bacterial <- data_bacterial%>%
+  select(isolateID, everything())
+  
+
+#Updated isolate numbers from initial test
+data_bacterial$isolateID[1:5] <- c(5, 15, 25, 46, 47)
+subset(data_bacterial, isolateID == 5 | isolateID == 15 | isolateID == 25 | isolateID == 46 | isolateID == 47) #5, 46, 47 were new IDed organisms, 15 matched other sequence, 25 couldn't be IDed
+
+#Removed bacteria with higher than 5% contamination
+data_bacterial <- data_bacterial%>%
+  filter(Contamination <= 5.00)
+
+###Go back here and correct ones at end?? Ask Mike
+
+```
+
+
+Separating bacterial taxonomies:
+```{r}
+#Extracts individual taxonomic levels and puts into their own columns:
+data_bacterial_tax1 <- data_bacterial%>%
+  mutate(gtdb1 = taxonomy_gtdb)%>%
+  mutate(gtdb2 = taxonomy_gtdb)
+
+#Makes separate columns for domain, phylum and class
+data_bacterial_tax2 <- extract(data = data_bacterial_tax1,    # Apply extract function
+                             col = gtdb1,
+                             into = c("domain", 
+                                      "phylum",
+                                      "class",
+                                      "order",
+                                      "family",
+                                      "genus"),
+                                      regex = ".*d__([[:alnum:]]+).*p__([[:alnum:]]+).*c__([[:alnum:]]+).*o__([[:alnum:]]+).*f__([[:alnum:]]+).*g__([[:alnum:]]+)")
+
+#Makes separate columns for order, family, genus and latin name
+data_bacterial_tax3 <- extract(data = data_bacterial_tax2,    # Apply extract function
+                             col = gtdb2,
+                             into = c("bio_name"),
+                                      regex = ".*s__([[:print:]]+)")
+                             
+#Removes bacteria with completely blank gtdb information                    
+data_bacterial_tax4 <- data_bacterial_tax3%>%
+  filter(taxonomy_gtdb != "")%>%
+  select(isolateID, sampleID, bio_name, everything())
+  
+
+data_bacterial_tax4
+```
+
+Adding in collection metadata:
+```{r}
+#Adding in metadata from collection (see iso_history above)
+data_bacterial_meta <- inner_join(data_bacterial_tax4,
+                                  iso_history,
+                                  by = c("isolateID"="isolate_number"))%>%
+   relocate(genus, .after=bio_name)
+
+data_bacterial_meta
+```
+
+
+Extracting prophage lengths from VIBRANT and Virsorter2 data:
+```{r}
+# Takes VIBRANT data and extracts stop and start positions of prophage, and total length
+vibrant_info_lengths <- vibrant_info%>%
+  dplyr::rename(contig_ID = fragment, vibrant_start = nucleotide.start, vibrant_stop = nucleotide.stop, vibrant_length = nucleotide.length)%>%     
+select('contig_ID', 'vibrant_start', 'vibrant_stop', 'vibrant_length')
+
+# Takes Virsorter2 data and extracts stop and start positions of prophage, and total length
+virsorter_info_lengths <- virsorter_info%>%
+  dplyr::rename("contig_ID" = seqname_new, virsort_start = trim_bp_start, virsort_end = trim_bp_end)%>%
+  mutate(virsort_length = virsort_end-virsort_start+1)%>% #creates a new column with lengths
+  select("contig_ID", virsort_start, virsort_end, virsort_length)%>%
+  filter(str_detect(contig_ID, 'partial'))#removes 'full' lines that weren't excised
+  
+```
+
+
+Combining prophage lengths into viral data table:
+```{r}
+# Makes a new column with sample IDs
+viral_text <- viral_text %>%
+  mutate(sampleID = gsub("(Sample_\\d+).*", "\\1", contig_ID))
+
+# From the initial viral info, extracts contig IDs and sample IDs
+#Note: contig_ID containing "fragment" = excised from vibrant
+#Note: contig_ID containing "partial" = excised from virsorter
+viral_lengths_prep <- viral_text%>%
+  select(contig_ID, sampleID)%>%
+  filter(str_detect(contig_ID, 'fragment|partial'))%>% #removes lines that weren't excised
+  mutate(software = if_else(str_detect(contig_ID, "fragment"), "vibrant", "virsorter"))
+#adds another row specifying the software used to extract prophage
+
+# Joins extracted info with vibrant nucleotide positions and lengths
+viral_lengths1 <- viral_lengths_prep %>%
+  full_join(vibrant_info_lengths,
+            by = "contig_ID")
+
+# Joins extracted info with virsorter nucleotide positions and lengths
+viral_lengths2 <- viral_lengths1 %>%
+  full_join(virsorter_info_lengths,
+            by = "contig_ID")
+
+# Combines together start, ends and lengths into single columns, and removes previous soft-ware specific columns
+viral_lengths_final <- viral_lengths2%>%
+  mutate(bp_start = coalesce(vibrant_start, virsort_start))%>%
+  mutate(bp_stop = coalesce(vibrant_stop, virsort_end))%>%
+  mutate(bp_length = coalesce(vibrant_length, virsort_length))%>%
+  select(-c(vibrant_start, vibrant_stop, vibrant_length, virsort_start, virsort_end, virsort_length))
+
+viral_lengths_final
+
+
+
+```
+
+
+Finding overlapping prophage picked up by both softwares:
+```{r}
+# Matches prophage with their checkv completeness and checkv contamination
+
+# Adds checkv stats onto prophages
+viral_checkv <- left_join(viral_lengths_final, viral_text%>%dplyr::select(contig_ID, checkv_completeness, checkv_contamination, checkv_checkv_quality),
+            by = "contig_ID")
+
+
+# Filters for checkv quality of complete, high or medium quality
+viral_duplicate_removal <- viral_checkv%>%
+  filter(str_detect(checkv_checkv_quality, 'High-quality|Complete|Medium-quality'))%>%
+  arrange(sampleID, bp_start)
+
+# Reading in manually checked duplicates, where those with higher contamination were removed
+#Note: If checkv quality was the same (or high-quality and complete) for any two duplicates, decision was based on chevkv contamination
+#If checkv quality was different (except high-quality and complete), higher checkv was prioritized
+#No decisions made on single prophages at this stage
+
+
+#Manually checked data, with which to keep, reason and pairing info
+#Also includes "flag" for a cluster of viruses that might join even without direct overlap
+viral_duplicate_manual <- read.csv("duplicate_checking3.csv")
+
+#Final single viruses
+viral_singles <- viral_duplicate_manual%>%
+  select(c(-X))%>%
+  filter(keep_it=="yes")%>%
+  select(c(-buddy, -keep_it, -reason, checkv_contamination, checkv_checkv_quality))
+
+```
+
+Marriage of bacterial and viral data:
+```{r}
+# Joins together bacterial and viral data
+data_bacterial_viral <- data_bacterial_meta%>%
+  filter(!if_all(domain:genus, is.na))%>% #removes any bacteria without any taxonomic data
+  left_join(viral_singles, by="sampleID")%>% # adds viruses filtered manually for duplicates
+  mutate(is_virus = if_else(is.na(software), "no", "yes"))%>% #adds column that specifies if a virus is present
+  relocate(is_virus, .after=bio_name)%>%
+  mutate(isolateID = as.numeric(isolateID))%>%
+  arrange(isolateID)%>%
+  mutate(isolateID = as.character(isolateID))
+  
+data_bacterial_viral
+
+
+```
+
+
+Adding in viral annotations for genes:
+```{r}
+viral_anno <- viral_anno %>%
+  mutate(sampleID = gsub("(Sample_\\d+).*", "\\1", contig))
+
+viral_anno
+
+data_bacterial_viral_anno <- left_join(data_bacterial_meta,
+                                  viral_anno,
+                                  by = "sampleID")
+```
+
+
+Bacterial taxanomic data without NA values, no viruses:
+```{r}
+datagood_tax_nafree <- data_bacterial_tax4 %>%
+  filter(!if_all(domain:genus, is.na))%>%
+  relocate(sampleID, .before=domain)%>%
+  relocate(bio_name, .after=sampleID)
+
+datagood_tax_nafree
+
+```
+
+
+

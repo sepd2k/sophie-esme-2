@@ -1,0 +1,355 @@
+---
+title: "BasicProphagePlots"
+output: html_document
+---
+
+```{r}
+library(ggrepel)
+
+```
+
+
+```{r}
+#NOTE: Run DataWrangling before this
+
+
+#Creates a numeric ID value instead of a character, for re-ordering
+prophage_plot <- data_bacterial_viral%>%
+  mutate(isolateID_num = as.numeric(isolateID))
+
+#Replaces NA values in quality check to indicate no virus
+prophage_plot$checkv_checkv_quality <- prophage_plot$checkv_checkv_quality%>% replace_na("No Virus")
+
+#Counts the number of viruses in an isolate
+virus_count <- prophage_plot%>%
+  group_by(isolateID)%>%
+  dplyr::count(is_virus)%>%
+  filter(is_virus=="yes")%>%
+  select(isolateID, n)
+
+
+#Attaches virus number to initial dataframe
+prophage_plot2 <- prophage_plot %>%
+left_join(virus_count, by="isolateID")%>%
+  mutate(n = coalesce(n, 0))%>%
+  mutate(colortext = case_when( #new variable for coloring
+           n > 0 ~ "some",
+           n == 0 ~ "nada"
+         ))
+
+```
+
+
+Table with basic viral info:
+```{r}
+basic_viral_table<-prophage_plot2 %>%
+  filter(is_virus=="yes")%>%
+  select(isolateID, bio_name, bp_length, checkv_completeness)
+
+write.csv(basic_viral_table,"basic_viral_table.csv", row.names = TRUE)
+
+```
+
+
+Plots with isolate ID v checkv completeness/contamination: nedium, high and complete checkv quality
+```{r}
+#Plot with isolate ID v checkv completeness: medium, high and complete
+ggplot(prophage_plot2,
+       aes(x = fct_reorder(isolateID, isolateID_num),
+                          y = checkv_completeness))+
+  geom_point(alpha=0.5,
+             size=4,
+             color="blue")+
+  coord_cartesian(ylim = c(0, 105))+
+  labs(x = "Isolate ID",
+       y = "checkv Phage Completeness (%)")+
+  geom_text(aes(label= n,
+                color=colortext),
+          y=105,
+          stat='count',
+          size=4)+
+  scale_color_manual(values = c('some' = 'chartreuse4', 'nada' = 'red'),
+                     guide = "none")+
+  ggtitle("Phage completeness per isolate (medium quality, high quality, complete)")
+
+#Note: Warning is ok, just referring to NA values in completeness when there are no viruses
+
+#Plot with isolate ID v checkv contamination: medium, high and complete
+ggplot(prophage_plot2,
+       aes(x = fct_reorder(isolateID, isolateID_num),
+                          y = checkv_contamination))+
+  geom_point(alpha=0.5,
+             size=4,
+             color="blue")+
+  coord_cartesian(ylim = c(0, 105))+
+  labs(x = "Isolate ID",
+       y = "checkv Phage Contamination (%)")+
+  geom_text(aes(label= n,
+                color=colortext),
+          y=105,
+          stat='count',
+          size=4)+
+  scale_color_manual(values = c('some' = 'chartreuse4', 'nada' = 'red'),
+                     guide = "none")+
+  ggtitle("Phage contamination per isolate (medium quality, high quality, complete)")
+
+#Note: Warning is ok, just referring to NA values in contamination when there are no viruses
+
+```
+
+Plot with isolate ID v checkv completeness, only high and complete checkv quality:
+```{r}
+#Filters by high quality or complete viral genomes
+only_high_quality <-prophage_plot%>%
+  filter(is.na(checkv_checkv_quality)| !str_detect(checkv_checkv_quality, 'Medium-quality'))%>%
+  group_by(isolateID)
+
+only_high_quality
+
+
+#Second viral count with only high quality viruses
+virus_count2 <- only_high_quality%>%
+    dplyr::count(is_virus)%>%
+  filter(is_virus=="yes")%>%
+  select(isolateID, n)
+
+
+#Attaches virus number to initial dataframe
+only_high_quality <- only_high_quality %>%
+  left_join(virus_count2, by="isolateID")%>%
+  mutate(n = coalesce(n, 0))%>%
+  mutate(colortext = case_when( #new variable for coloring
+           n > 0 ~ "some",
+           n == 0 ~ "nada"
+         ))
+
+
+#Plot with isolate ID v checkv completeness: high and complete checkv quality only
+ggplot(only_high_quality,
+       aes(x = fct_reorder(isolateID, isolateID_num),
+                          y = checkv_completeness))+
+  geom_point(alpha=0.5,
+             size=4,
+             color="blue")+
+  ylim(min=0,
+       max=105) +
+  labs(x = "Isolate ID",
+       y = "checkv Phage Completeness (%)")+
+  geom_text(aes(label= n,
+                color=colortext),
+          y=105,
+          stat='count',
+          size=4)+
+  scale_color_manual(values = c('some' = 'chartreuse4', 'nada' = 'red'),
+                     guide = "none")+
+  ggtitle("Phage completeness per isolate (high quality and complete checkv quality only)")
+
+#Note: Warning is ok, just referring to NA values in contamination when there are no viruses
+
+
+
+#Plot with isolate ID v checkv contamination: high and complete checkv quality only
+ggplot(only_high_quality,
+       aes(x = fct_reorder(isolateID, isolateID_num),
+                          y = checkv_contamination))+
+  geom_point(alpha=0.5,
+             size=4,
+             color="blue")+
+  ylim(min=0,
+       max=105) +
+  labs(x = "Isolate ID",
+       y = "checkv Phage Contamination (%)")+
+  geom_text(aes(label= n,
+                color=colortext),
+          y=105,
+          stat='count',
+          size=4)+
+  scale_color_manual(values = c('some' = 'chartreuse4', 'nada' = 'red'),
+                     guide = "none")+
+  ggtitle("Phage contamination per isolate (high quality and complete checkv quality only)")
+
+#Note: Warning is ok, just referring to NA values in contamination when there are no viruses
+
+
+```
+
+
+```{r}
+
+#Leaves only one isolate row, if they have multiple phages 
+water_plot <- prophage_plot2 %>%
+  distinct(isolateID, .keep_all = TRUE)
+
+#Plot
+ggplot(water_plot,
+       aes(x = water_origin, y = salinity, color=is_virus))+
+  geom_tile(aes(fill = water_origin,
+                alpha = 0.99),
+            color = "white")+
+    geom_point(position = position_jitter(w=0.2, 
+                                        h =0, 
+                                        seed=1),
+             color="black")+
+  geom_label_repel(aes(label=isolateID), 
+                  position = position_jitter(w=0.2, h=0, seed=1),
+                  min.segment.length = unit(0, 'lines'),
+                  max.overlaps = 20)+
+  labs(title = "Title")+
+  xlab ("Original Source")+
+  ylab ("Media Salinity (g/L)")+
+  scale_fill_manual(values=c("cyan3",
+                             "blue"),
+                    guide="none")+
+  scale_color_manual(values=c("brown3",
+                              "darkgreen"),
+                     name= "Virus",
+                     label = c("No", "Yes"))+
+  guides(alpha = "none",
+         water_origin="none")+
+  ggtitle("Original Water Source v Media Salinity")
+
+ 
+```
+Bacteriophage per genus plots:
+```{r}
+#Quality per genus of the phage genomes
+ggplot(prophage_plot2, aes(x = checkv_checkv_quality, fill = genus))+
+  geom_bar(position="stack")
+
+
+#Finds out which isolates have at least one virus
+genus_check <- prophage_plot2%>%
+  distinct(isolateID, .keep_all = TRUE)%>%
+  filter(n > 0)
+
+#Plot of genera with at least one virus
+ggplot(genus_check, aes(x = genus,
+                        fill=genus))+
+  geom_bar()+
+  theme(axis.text.x = element_blank())+
+  xlab("Genus")+
+  ylab("Number of isolates with at least one phage")
+
+
+#Plot of family with at least one virus
+ggplot(genus_check, aes(x = family,
+                        fill=genus))+
+  geom_bar()+
+  xlab("Family")+
+  ylab("Number of isolates with at least one phage")+
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+
+
+prophage_plot2%>%
+  filter(Completeness < 70)%>%
+  filter(is_virus=="yes")
+
+```
+
+
+Comparing STENOTROPHOMONAS sp.:
+```{r}
+steno <- prophage_plot2%>%
+  filter(genus =="Stenotrophomonas")%>%
+  filter(is_virus =="yes")
+
+ggplot(steno,
+       aes(x=isolateID,
+           y=bp_length,
+           color=bio_name,
+           shape=water_origin))+
+  geom_point(aes(alpha=0.5,
+                 size=1))+
+  xlab("Stenotrophomonas Isolate ID")+
+  ylab("Prophage Length (bp)")+
+  labs(color = "Species")+
+  guides(alpha = "none", size="none")
+
+```
+
+Comparing VIBRIO sp.:
+```{r}
+vibrio <- prophage_plot2%>%
+  filter(genus =="Vibrio")%>%
+  filter(is_virus =="yes")
+
+ggplot(vibrio,
+       aes(x=isolateID,
+           y=bp_length,
+           color=bio_name,
+           shape=water_origin))+
+  geom_point(aes(alpha=0.5,
+                 size=1))+
+  xlab("Vibrio sp. Isolate ID")+
+  ylab("Prophage Length (bp)")+
+  labs(color = "Species")+
+  guides(alpha = "none", size="none", shape="none")
+
+```
+
+Comparing ENTEROBACTER sp.:
+```{r}
+entero <- prophage_plot2%>%
+  filter(genus =="Enterobacter")%>%
+  filter(is_virus =="yes")
+
+ggplot(entero,
+       aes(x=isolateID,
+           y=bp_length,
+           color=bio_name,
+           shape=water_origin))+
+  geom_point(aes(alpha=0.5,
+                 size=1))+
+  xlab("Enterobacter sp. Isolate ID")+
+  ylab("Prophage Length (bp)")+
+  labs(color = "Species")+
+  guides(alpha = "none", size="none", shape="none")
+
+```
+
+
+Comparing PROVIDENCIA sp.:
+```{r}
+providencia <- prophage_plot2%>%
+  filter(genus =="Providencia")%>%
+  filter(is_virus =="yes")
+
+providencia
+
+ggplot(providencia,
+       aes(x=isolateID,
+           y=bp_length,
+           color=genus,
+           shape=water_origin))+
+  geom_point(aes(alpha=0.5,
+                 size=1))+
+  xlab("Providencia sp. Isolate ID")+
+  ylab("Prophage Length (bp)")+
+  guides(alpha = "none",
+         size="none",
+         shape="none")
+
+```
+
+
+Comparing ENTEROBACTER sp.:
+```{r}
+entero_fam <- prophage_plot2%>%
+  filter(family =="Enterobacteriaceae")%>%
+  filter(is_virus =="yes")
+
+
+ggplot(entero_fam,
+       aes(x=isolateID,
+           y=bp_length,
+           color=genus,
+           shape=water_origin))+
+  geom_point(aes(alpha=0.5,
+                 size=1))+
+  xlab("Enterobacteriaceae Members Isolate ID")+
+  ylab("Prophage Length (bp)")+
+  guides(alpha = "none",
+         size="none")
+
+```
+
